@@ -35,6 +35,29 @@ classdef ChannelCode
             end
            
         end
+        
+        function out = PolarCode(obj,Flag)
+           N = 512;
+           K = 256;
+           out = [];
+            if Flag == "Encode"
+                if rem(length(obj.bits),K) ~= 0
+                    obj.bits = [obj.bits zeros(1,K-rem(length(obj.bits)))];
+                end
+                for i = 1:K:length(obj.bits)
+                    out = [out PolarEncode(obj.bits(i:i+K-1),K,N)];
+                end
+            elseif Flag == "Decode"
+                for i = 1:N:length(obj.bits)
+                    packet = obj.bits(i:i+N-1);
+                    packet(packet==1) = -1;    packet(packet==0) = 1;
+                    out = [out PolarDecode(packet,K,N)];
+                end
+            else
+               out = obj.bits; 
+            end
+            
+        end
     end
 end
 
