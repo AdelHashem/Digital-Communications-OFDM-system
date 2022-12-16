@@ -14,6 +14,9 @@ classdef Modulation
         
         function out = splitdata(obj,data,n)
             index = 1;
+            if rem(length(data),n) ~= 0
+               data = [data zeros(1,n - rem(length(data),n))]; 
+            end
             out = zeros(1,length(data)/n);
             for i=1:n:length(data)
                 out(index) = bi2de(flip(data(i:i+n-1)));
