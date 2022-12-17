@@ -18,4 +18,4 @@ In the Digital Communications project, you will investigate the performance of a
 - [x] Multi-path fading 
 ## MIMO setups:
 - [X] SISO (QPSK-LinearBlock)
-- [ ] MIMO
+- [ ] SIMO
