@@ -22,7 +22,7 @@ classdef ChannelCode
             out = [];
             if Flag == "Encode"
                 if rem(length(obj.bits),4) ~= 0
-                    obj.bits = [obj.bits zeros(1,4-rem(length(obj.bits)))];
+                    obj.bits = [obj.bits zeros(1,4-rem(length(obj.bits),4))];
                 end
                 for i = 1:4:length(obj.bits)
                     out = [out rem(obj.bits(i:i+3)*genmat,2)];
