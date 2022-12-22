@@ -6,7 +6,7 @@ In the Digital Communications project, you will investigate the performance of a
 - [x] LinearBlock (the Decoder (Matlab Fun))
 ## Symbol mapper: (As methods in Modulation.m)
 - [x] QPSK
-- [ ] 16QAM
+- [x] 16QAM
 - [ ] 64QAM
 ## Pilot:
 - [x] implemented (Not Sure)
