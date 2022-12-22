@@ -9,7 +9,7 @@ In the Digital Communications project, you will investigate the performance of a
 - [x] 16QAM
 - [ ] 64QAM
 ## Pilot:
-- [x] implemented (Not Sure)
+- [x] implemented ~~(Not Sure)~~ -Verified by Dr. Karmoos
 ## Cyclic prefix
 - [x] Add Cyclic prefix
 - [x] Remove Cyclic prefix
