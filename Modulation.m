@@ -47,6 +47,50 @@ classdef Modulation
             
             
         end
+        function out = QAM16(obj,data,selector)
+            % Mod & Demod The 16QAM
+            % i/p: selector ['Mod','Demod']
+            MapTable = [0 0 0 0;0 0 0 1;0 0 1 0;0 0 1 1;0 1 0 0;0 1 0 1;0 1 1 0;0 1 1 1;1 0 0 0;1 0 0 1;1 0 1 0;1 0 1 1;1 1 0 0;1 1 0 1;1 1 1 0;1 1 1 1];
+            Map = 1/sqrt(10).*[-3-3j -3-1j -3+3j -3+1j -1-3j -1-1j -1+3j -1+1j 3-3j 3-1j 3+3j 3+1j 1-3j 1-1j 1+3j 1+1j];
+
+            if selector == "Mod"
+                data = obj.splitdata(data,4);
+                out = Map(data+1);
+            elseif selector == "Demod"
+                out = [];
+                for k = 1:1:length(data)
+                    be = real(data(k));
+                    bo = imag(data(k));
+                    if (be > 1.5/(sqrt(10)))
+                        be = [1 0];
+                    elseif (be > 0)
+                        be = [1 1];
+                    elseif (be < -1.5/(sqrt(10)))
+                        be = [0 0];
+                    else
+                        be = [0 1];
+                    end
+                    if (bo > 1.5/(sqrt(10)))
+                        bo = [1 0];
+                    elseif (bo > 0)
+                        bo = [1 1];
+                    elseif (bo < -1.5/(sqrt(10)))
+                        bo = [0 0];
+                    else
+                        bo = [0 1];
+                    end
+                    b=[be bo];
+                    out =[out b];    
+                end
+            end
+                    
+                    
+                    
+                end
+                
+                
+                
+            
+        
     end
 end
-
