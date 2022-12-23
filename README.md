@@ -15,7 +15,7 @@ In the Digital Communications project, you will investigate the performance of a
 - [x] Remove Cyclic prefix
 ## channel
 - [x] AWGN (channel.m)
-- [x] Multi-path fading (we get h(fixed for one frame) in OFDMframe.m then make the conv and add the noise in channel.m This for SISO)
+- [x] Multi-path fading (we get h(fixed for one frame) then make the conv and add the noise in channel.m for both SISO & SIMO)
 ## MIMO setups:
 - [X] SISO (QPSK-LinearBlock) (run SISO.m)
 - [X] SIMO (QPSK-LinearBlock) (run SIMO.m)
