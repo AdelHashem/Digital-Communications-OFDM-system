@@ -3,16 +3,7 @@ function [error,Total] = OFDMframe(noSymobl,L,M,EbNo,chCoding)
 %   Detailed explanation goes here
 Nfft = 1024;
 cp = L + 1;
-if M == 4
-    modu = "QPSK";
-elseif M == 16
-    modu = "16QAM";
-elseif M == 64
-    modu = "64QAM";
-else
-    modu = "QPSK";
-end
-
+k = log2(M);
 if chCoding == "Polar"
     Nbits = 1024;
     
@@ -23,6 +14,17 @@ else
     Nbits = 1168;
 end
 
+if M == 4
+    modu = "QPSK";
+elseif M == 16
+    modu = "16QAM";
+    Nbits = Nbits * 2;
+elseif M == 64
+    modu = "64QAM";
+    Nbits = Nbits * 3;
+else
+    modu = "QPSK";
+end
 
 K = log2(M);
 
@@ -47,12 +49,12 @@ for symbol = 1:1:noSymobl
            coded  = Coding.linearBlock("Encode");
        end
        % we Mod 2044 bit with QPSK, We Get 1022 symbol
-       mod = Modulation();
+       mod = Modulation2();
        
        if modu == "QPSK"
         mod_bits = mod.QPSK(coded,"Mod");
        elseif modu == "16QAM"
-           mod_bits = mod.QAM16(coded,"Mod");
+           mod_bits = mod.QAM(coded,"Mod");
        else
            mod_bits = mod.QAM64(coded,"Mod");
        end
@@ -75,13 +77,13 @@ for symbol = 1:1:noSymobl
        r = cpRem(r,cp,Nfft); % remove the Cyclic prefix
        
        r_est = fft(r) ./ H_est;
-       demoded = mod.QPSK(r_est(1:Nfft),"Demod");
+       demoded = mod.QAM16(r_est(1:Nfft),"Demod");
        
        if chCoding == "Polar"
            Coding = ChannelCode(demoded);
            rec = Coding.PolarCode("Decode");
        else
-           Coding = ChannelCode(demoded(1:2044));
+           Coding = ChannelCode(demoded(1:2044*k/2));
            rec = Coding.linearBlock("Decode");
        end
        
