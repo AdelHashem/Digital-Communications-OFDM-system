@@ -134,34 +134,34 @@ classdef Modulation
                     bo = imag(data(k));
                     if (be > 6/(sqrt(42)))
                         be = [1 0 0];
-                    elseif (be > 4/(sqrt(42))&& be < 6/(sqrt(42)))
+                    elseif (be > 4/(sqrt(42)))
                         be = [1 0 1];
-                    elseif (be > 2/(sqrt(42)) && be < 4/(sqrt(42)))
+                    elseif (be > 2/(sqrt(42)))
                         be = [1 1 1];    
-                    elseif (be > 0 && be < 2/(sqrt(42)))
+                    elseif (be > 0)
                         be = [1 1 0];
-                    elseif (be < -2/(sqrt(42)) && be < 0)
+                    elseif (be > -2/(sqrt(42)))
                         be = [0 1 0];
-                    elseif (be < -4/(sqrt(42)) && be > -2/(sqrt(42)))
+                    elseif (be > -4/(sqrt(42)))
                         be = [0 1 1];
-                    elseif (be < -6/(sqrt(42)) && be > -4/(sqrt(42)))
+                    elseif (be > -6/(sqrt(42)))
                         be = [0 0 1];    
                     else
                         be = [0 0 0];
                     end
                     if (bo > 6/(sqrt(42)))
                         bo = [1 0 0];
-                    elseif (bo > 4/(sqrt(42)) && bo < 6/(sqrt(42)))
+                    elseif (bo > 4/(sqrt(42)))
                         bo = [1 0 1];
-                    elseif (bo > 2/(sqrt(42)) && bo < 4/(sqrt(42)))
+                    elseif (bo > 2/(sqrt(42)))
                         bo = [1 1 1];    
-                    elseif (bo > 0 && bo < 2/(sqrt(42)))
+                    elseif (bo > 0)
                         bo = [1 1 0];
-                    elseif (bo < -2/(sqrt(42)) && bo < 0)
+                    elseif (bo > -2/(sqrt(42)))
                         bo = [0 1 0];
-                    elseif (bo < -4/(sqrt(42)) && bo > -2/(sqrt(42)))
+                    elseif (bo > -4/(sqrt(42)))
                         bo = [0 1 1];
-                    elseif (bo < -6/(sqrt(42)) && bo > -4/(sqrt(42)))
+                    elseif (bo > -6/(sqrt(42)))
                         bo = [0 0 1];    
                     else
                         bo = [0 0 0];
