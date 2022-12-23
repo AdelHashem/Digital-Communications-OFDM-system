@@ -61,20 +61,20 @@ classdef Modulation
                 for k = 1:1:length(data)
                     be = real(data(k));
                     bo = imag(data(k));
-                    if (be > 1.5/(sqrt(10)))
+                    if (be > 2/(sqrt(10)))
                         be = [1 0];
                     elseif (be > 0)
                         be = [1 1];
-                    elseif (be < -1.5/(sqrt(10)))
+                    elseif (be < -2/(sqrt(10)))
                         be = [0 0];
                     else
                         be = [0 1];
                     end
-                    if (bo > 1.5/(sqrt(10)))
+                    if (bo > 2/(sqrt(10)))
                         bo = [1 0];
                     elseif (bo > 0)
                         bo = [1 1];
-                    elseif (bo < -1.5/(sqrt(10)))
+                    elseif (bo < -2/(sqrt(10)))
                         bo = [0 0];
                     else
                         bo = [0 1];
