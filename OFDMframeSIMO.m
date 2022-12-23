@@ -1,4 +1,4 @@
-function [error,Total] = OFDMframe(noSymobl,L,M,EbNo,chCoding)
+function [error,Total] = OFDMframeSIMO(noSymobl,L,M,EbNo,chCoding)
 %OFDMFRAME Summary of this function goes here
 %   Detailed explanation goes here
 Nfft = 1024;
@@ -56,7 +56,7 @@ for symbol = 1:1:noSymobl
        if modu == "QPSK"
         mod_bits = mod.QPSK(coded,"Mod");
        elseif modu == "16QAM"
-           mod_bits = mod.QAM(coded,"Mod");
+           mod_bits = mod.QAM16(coded,"Mod");
        else
            mod_bits = mod.QAM64(coded,"Mod");
        end
@@ -94,7 +94,14 @@ for symbol = 1:1:noSymobl
            r_est = r_est2;
        end
        
-       demoded = mod.QAM16(r_est(1:Nfft),"Demod");
+       
+       if modu == "QPSK"
+        demoded = mod.QPSK(r_est(1:Nfft),"Demod");
+       elseif modu == "16QAM"
+           demoded = mod.QAM16(r_est(1:Nfft),"Demod");
+       else
+           demoded = mod.QAM64(r_est(1:Nfft),"Demod");
+       end
        
        if chCoding == "Polar"
            Coding = ChannelCode(demoded);
