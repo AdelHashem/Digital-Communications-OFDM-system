@@ -7,7 +7,7 @@ In the Digital Communications project, you will investigate the performance of a
 ## Symbol mapper: (As methods in Modulation.m)
 - [x] QPSK
 - [x] 16QAM
-- [ ] 64QAM
+- [x] 64QAM
 ## Pilot:
 - [x] implemented ~~(Not Sure)~~ -Verified by Dr. Karmoos
 ## Cyclic prefix
