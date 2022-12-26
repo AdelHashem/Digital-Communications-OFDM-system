@@ -4,6 +4,7 @@ In the Digital Communications project, you will investigate the performance of a
 ## Channel coding: (As methods in ChannelCode.m)
 - [X] PolarCode
 - [x] LinearBlock (the Decoder (Matlab Fun))
+- [x] ConvolutionalCode (ConvolutionalCode() A flexible func can be designed for any L&n ConvolutionalCode2() fixed n = 2, L=2 faster for our case)
 ## Symbol mapper: (As methods in Modulation.m)
 - [x] QPSK
 - [x] 16QAM
