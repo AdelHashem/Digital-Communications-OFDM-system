@@ -58,6 +58,45 @@ classdef ChannelCode
             end
             
         end
+        
+        function out = Convolutional(obj,Flag)
+            n = 2;
+            L = 3;
+            [next_states, outputs] = Trellis_Gen(L,[5 7]);
+            
+            
+            if Flag == "Encode"
+                out = ConvEncode(obj.bits,n, next_states, outputs);
+                
+            elseif Flag == "Decode"
+                out = viterbi_decoder3(obj.bits, next_states, outputs, L,n);
+            else
+                out = obj.bits;
+            end
+            
+            
+            
+        end
+        
+        function out = Convolutional2(obj,Flag)
+            n = 2;
+            L = 3;
+            
+            
+            if Flag == "Encode"
+                out = ConvolutionalEncoder(obj.bits, length(obj.bits));
+                
+            elseif Flag == "Decode"
+                out = ViterbiDecoder(obj.bits, length(obj.bits)/2);
+            else
+                out = obj.bits;
+            end
+            
+            
+            
+        end
+        
+        
     end
 end
 
