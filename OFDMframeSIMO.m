@@ -1,4 +1,4 @@
-function [error,Total] = OFDMframeSIMO(noSymobl,L,M,EbNo,chCoding)
+function [error,Total] = OFDMframeSIMO(noSymobl,L,M,EbNo,chCoding,ch)
 %OFDMFRAME Summary of this function goes here
 %   Detailed explanation goes here
 Nfft = 1024;
@@ -78,15 +78,19 @@ for symbol = 1:1:noSymobl
        data  = cpAdd(data1,cp);
        
        % CHANNEL
-       r = channel(data,h,EbNo,M);
-       r2 = channel(data,h2,EbNo,M);
+       r = channel(data,h,EbNo,M,ch);
+       r2 = channel(data,h2,EbNo,M,ch);
        
        % RECIVER
        r = cpRem(r,cp,Nfft); % remove the Cyclic prefix
        r2 = cpRem(r2,cp,Nfft); % remove the Cyclic prefix
-       
-       r_est = (fft(r)./sqrt(Nfft)) ./ H_est;
-       r_est2 = (fft(r2)./sqrt(Nfft)) ./ H_est2;
+       if ch == "Fading"
+          r_est = (fft(r)./sqrt(Nfft)) ./ H_est;
+          r_est2 = (fft(r2)./sqrt(Nfft)) ./ H_est2;
+       else
+           r_est = (fft(r)./sqrt(Nfft));
+           r_est2 = (fft(r2)./sqrt(Nfft));
+       end
        
        pw = 0;
        pw2 = 0;

@@ -1,5 +1,8 @@
-function [output] = channel(signal,h,EbNodb,M)
-signal = conv(h,signal);  % comment this line for AGWN Only
+function [output] = channel(signal,h,EbNodb,M,ch)
+if ch == "Fading"
+    signal = conv(h,signal);
+end
+  
 
 Eb = 1 / log2(M);
 EbNo_linear=10^(EbNodb/10);

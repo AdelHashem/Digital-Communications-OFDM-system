@@ -5,7 +5,7 @@ sig_ifft = ifft(symbols,Nfft).*sqrt(1024);
 
 sig = cpAdd(sig_ifft,cp);
 
-r = channel(sig,h,EbNo,M);
+r = channel(sig,h,EbNo,M,"Fading");
 
 r = cpRem(r,cp,Nfft);
 

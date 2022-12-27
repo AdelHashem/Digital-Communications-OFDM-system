@@ -1,12 +1,17 @@
 clc;
 clear variables;
-
+%%
 frames = 100; % frames / Eb/No value
 Nsymbols = 15; % OFDM Symbos / Frame
-M = 16; %QPSK
+M = 4; %QPSK
 L = 50;
 x = 0:3:40;
+%[Convolutional, LinearBlock, PolarCode]
 coding = "LinearBlock";
+%[Fading,AWGN}
+channel = "Fading";
+
+%%
 BER = [];
 c = 1;
 
@@ -26,7 +31,7 @@ for EbNo = 0:3:40
     total = 0;
     
     for i = 1:1:frames
-        [err, tot] = OFDMframeSIMO(Nsymbols,L,M,EbNo,"LinearBlock");
+        [err, tot] = OFDMframeSIMO(Nsymbols,L,M,EbNo,coding,channel);
         error = error + err;
         total = total + tot;
     end
@@ -34,9 +39,9 @@ for EbNo = 0:3:40
     c = c + 1
     
 end
-
+%%
 figure
-plot(x,log10(BER),'b--o')
+semilogy(x,BER,'linewidth',2,'marker','o');
 title(['BER VS Eb/No (SIMO) ' coding ' - ' modu ]);
 xlabel('Eb/No (db)')
-ylabel('BER (log10)')
+ylabel('BER')
