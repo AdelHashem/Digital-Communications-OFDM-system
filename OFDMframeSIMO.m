@@ -1,4 +1,4 @@
-function [error,Total] = OFDMframeSIMO(noSymobl,L,M,EbNo,chCoding,ch)
+function [error,Total] = OFDMframeSIMO(noSymobl,L,M,EbNo,chCoding,ch,selc)
 %OFDMFRAME Summary of this function goes here
 %   Detailed explanation goes here
 Nfft = 1024;
@@ -85,24 +85,34 @@ for symbol = 1:1:noSymobl
        r = cpRem(r,cp,Nfft); % remove the Cyclic prefix
        r2 = cpRem(r2,cp,Nfft); % remove the Cyclic prefix
        if ch == "Fading"
-          r_est = (fft(r)./sqrt(Nfft)) ./ H_est;
-          r_est2 = (fft(r2)./sqrt(Nfft)) ./ H_est2;
+           if selc == "SC"
+              r_est = (fft(r)./sqrt(Nfft)) ./ H_est;
+              r_est2 = (fft(r2)./sqrt(Nfft)) ./ H_est2;
+           else %MRC
+               r_est = (fft(r)./sqrt(Nfft)) .* conj(H_est);
+               
+               r_est = r_est + ((fft(r2)./sqrt(Nfft)) .* conj(H_est2));
+
+           end
        else
            r_est = (fft(r)./sqrt(Nfft));
            r_est2 = (fft(r2)./sqrt(Nfft));
        end
        
-       pw = 0;
-       pw2 = 0;
-       for i = 1 : 1024
-           pw = pw + r_est(i).^2;
-           pw2 = pw2 + r_est2(i).^2;
-       end
        
-       if pw2 > pw
-           r_est = r_est2;
+       if selc == "SC"
+           pw = 0;
+           pw2 = 0;
+           for i = 1 : 1024
+               pw = pw + r_est(i).^2;
+               pw2 = pw2 + r_est2(i).^2;
+           end
+           
+           if pw2 > pw
+               r_est = r_est2;
+           end
+           
        end
-       
        
        if modu == "QPSK"
         demoded = mod.QPSK(r_est(1:Nfft),"Demod");

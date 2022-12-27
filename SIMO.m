@@ -1,8 +1,8 @@
 clc;
-clear variables;
+%clear variables;
 %%
-frames = 100; % frames / Eb/No value
-Nsymbols = 15; % OFDM Symbos / Frame
+frames = 200; % frames / Eb/No value
+Nsymbols = 20; % OFDM Symbos / Frame
 M = 4; %QPSK
 L = 50;
 x = 0:3:40;
@@ -10,6 +10,9 @@ x = 0:3:40;
 coding = "LinearBlock";
 %[Fading,AWGN}
 channel = "Fading";
+
+%{SC,MRC}
+selc = "MRC";
 
 %%
 BER = [];
@@ -31,7 +34,7 @@ for EbNo = 0:3:40
     total = 0;
     
     for i = 1:1:frames
-        [err, tot] = OFDMframeSIMO(Nsymbols,L,M,EbNo,coding,channel);
+        [err, tot] = OFDMframeSIMO(Nsymbols,L,M,EbNo,coding,channel,selc);
         error = error + err;
         total = total + tot;
     end
@@ -42,6 +45,10 @@ end
 %%
 figure
 semilogy(x,BER,'linewidth',2,'marker','o');
+%hold on
+%semilogy(x,BERsc,'linewidth',2,'marker','o');
 title(['BER VS Eb/No (SIMO) ' coding ' - ' modu ]);
 xlabel('Eb/No (db)')
 ylabel('BER')
+%legend('OFDM Selection combining');
+%legend('OFDM MRC','OFDM Selection combining');
