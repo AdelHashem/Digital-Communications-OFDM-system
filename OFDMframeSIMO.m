@@ -4,15 +4,17 @@ function [error,Total] = OFDMframeSIMO(noSymobl,L,M,EbNo,chCoding)
 Nfft = 1024;
 cp = L + 1;
 k = log2(M);
-if chCoding == "Polar"
+if chCoding == "Polar" 
     Nbits = 1024;
-    
+elseif chCoding == "Convolutional"
+    Nbits = 1024;    
 elseif chCoding == "LinearBlock"
     Nbits = 1168;
     
 else
     Nbits = 1168;
 end
+
 
 if M == 4
     modu = "QPSK";
@@ -47,6 +49,9 @@ for symbol = 1:1:noSymobl
        %coded  = Coding.linearBlock("Encode");
        if chCoding == "Polar"
           coded  = Coding.PolarCode("Encode");
+          
+       elseif chCoding == "Convolutional"
+           coded  = Coding.Convolutional("Encode");
        else
            coded  = Coding.linearBlock("Encode");
        end
@@ -67,7 +72,7 @@ for symbol = 1:1:noSymobl
            mod_bits = [mod_bits zeros(1,Nfft - rem(length(mod_bits),Nfft))];
        end
 
-       data1 =ifft(mod_bits,Nfft);
+       data1 =ifft(mod_bits,Nfft).* sqrt(Nfft);
        
        % Add the Cyclic prefix
        data  = cpAdd(data1,cp);
@@ -80,8 +85,8 @@ for symbol = 1:1:noSymobl
        r = cpRem(r,cp,Nfft); % remove the Cyclic prefix
        r2 = cpRem(r2,cp,Nfft); % remove the Cyclic prefix
        
-       r_est = fft(r) ./ H_est;
-       r_est2 = fft(r2) ./ H_est2;
+       r_est = (fft(r)./sqrt(Nfft)) ./ H_est;
+       r_est2 = (fft(r2)./sqrt(Nfft)) ./ H_est2;
        
        pw = 0;
        pw2 = 0;
@@ -102,10 +107,13 @@ for symbol = 1:1:noSymobl
        else
            demoded = mod.QAM64(r_est(1:Nfft),"Demod");
        end
-       
        if chCoding == "Polar"
            Coding = ChannelCode(demoded);
            rec = Coding.PolarCode("Decode");
+           
+       elseif chCoding == "Convolutional"
+           Coding = ChannelCode(demoded);
+           rec = Coding.Convolutional("Decode");
        else
            Coding = ChannelCode(demoded(1:2044*k/2));
            rec = Coding.linearBlock("Decode");
