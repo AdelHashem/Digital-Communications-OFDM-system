@@ -92,6 +92,7 @@ for symbol = 1:1:noSymobl
                r_est = (fft(r)./sqrt(Nfft)) .* conj(H_est);
                
                r_est = r_est + ((fft(r2)./sqrt(Nfft)) .* conj(H_est2));
+               r_est = r_est ./ (H_est.* conj(H_est) + H_est2.*conj(H_est2));
 
            end
        else
