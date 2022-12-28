@@ -19,4 +19,4 @@ In the Digital Communications project, you will investigate the performance of a
 - [x] Multi-path fading (we get h(fixed for one frame) then make the conv and add the noise in channel.m for both SISO & SIMO)
 ## MIMO setups:
 - [X] SISO (QPSK-LinearBlock) (run SISO.m)
-- [X] SIMO (QPSK-LinearBlock) (run SIMO.m)
+- [X] SIMO (QPSK-LinearBlock) (run SIMO.m)  -we can Now Use the Selection Combining & The MRC (Just edit the selc to "MRC" Or "SC") the Algorithm was explained by DR.Karmoose
