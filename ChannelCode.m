@@ -30,6 +30,59 @@ classdef ChannelCode
                 
             elseif Flag == "Decode"
                 out  = decode(obj.bits,7,4,'linear',genmat,syndrom);
+            elseif Flag == "Decode2"
+            mtable=[0,0,0,0;0,0,0,1;0,0,1,0;0,0,1,1;0,1,0,0;0,1,0,1;0,1,1,0;0,1,1,1;1,0,0,0;1,0,0,1;1,0,1,0;1,0,1,1;1,1,0,0;1,1,0,1;1,1,1,0;1,1,1,1];
+                genmat = [1,1,0,1,0,0,0;0,1,1,0,1,0,0;1,1,1,0,0,1,0;1,0,1,0,0,0,1];
+                vec4=[0,0,0,0];
+                %padbits=[obj.bits 0];
+                %% creating codewords table and syndrome
+                for i=1:16
+                    for j=1:4
+                        vec4(j)=mtable(i,j);
+                    end
+                    cwtable(i,:)=mod(vec4*genmat,2);
+                end
+                parmat = gen2par(genmat);
+                syndrom = syndtable(parmat);
+                
+                
+                %% decoding
+                
+                
+                %out  = decode(m,7,4,'linear',genmat,syndrom);
+                rcodeword=[0,0,0,0,0,0,0];
+                for s=1:length(obj.bits)-1 %loop to split the recieved bits into blocks
+                    if rem(s,7)==1
+                        rcodeword=obj.bits(s:s+6);
+                    else
+                        continue;
+                    end
+                    errorvec1=mod(rcodeword*parmat',2);% getting error vector
+                    erlen=length(errorvec1);
+                    erind=0;
+                    for k=erlen:-1:1 %loop to convert error vector into index
+                        erind=erind+errorvec1(k)*(2^(erlen-k));
+                    end
+                    erindreal=erind+1;
+                    
+                    errorest=syndrom(erindreal,:);%getting the syndrome from syndrome table
+                    true_codeword=mod(rcodeword+errorest,2);%adding syndrome to the codeword
+                    for i=1:16 %getting real message from the codeword table
+                        for j=1:7
+                            vec5(j)=cwtable(i,j);
+                        end
+                        if vec5==true_codeword
+                            realmessage=mtable(i,:);
+                            break;
+                        end
+                    end
+                    if s==1 %putting real message together in one vector
+                        out=realmessage;
+                    else
+                        out=[out realmessage];
+                    end
+                end
+
             else
                 out = obj.bits;
             end
