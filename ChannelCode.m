@@ -104,7 +104,7 @@ classdef ChannelCode
                 for i = 1:N:length(obj.bits)
                     packet = obj.bits(i:i+N-1);
                     packet(packet==1) = -1;    packet(packet==0) = 1;
-                    out = [out PolarDecode(packet,K,N)];
+                    out = [out PolarDecode2(packet,K,N)];
                 end
             else
                out = obj.bits; 
