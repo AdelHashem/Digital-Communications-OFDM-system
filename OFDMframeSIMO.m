@@ -33,10 +33,12 @@ K = log2(M);
 
 error = 0;
 Total = 0;
-h = (1/sqrt(2*L)) * (randn(1,L) + 1i * rand(1,L)); % Fading Ch (Cont for the Frame)
-h2 = (1/sqrt(2*L)) * (randn(1,L) + 1i * rand(1,L)); % Fading Ch2 (Cont for the Frame)
+%h = (1/sqrt(2*L)) * (randn(1,L) + 1i * rand(1,L)); % Fading Ch (Cont for the Frame)
+%h2 = (1/sqrt(2*L)) * (randn(1,L) + 1i * rand(1,L)); % Fading Ch2 (Cont for the Frame)
 for symbol = 1:1:noSymobl
-   if symbol == 1
+   if rem(symbol-1,10) == 0
+       h = (1/sqrt(2*L)) * (randn(1,L) + 1i * rand(1,L)); % Fading Ch (changing every 10 symbols)
+       h2 = (1/sqrt(2*L)) * (randn(1,L) + 1i * rand(1,L)); % Fading Ch2 (changing every 10 symbols)
        H_est = Pilot(h,EbNo,Nfft,cp,M);
        H_est2 = Pilot(h2,EbNo,Nfft,cp,M);
        
